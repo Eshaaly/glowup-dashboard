@@ -1,223 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Ultimate Glow-Up Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Ultimate Life Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #6c5ce7;
-            --secondary: #a29bfe;
-            --accent: #fd79a8;
-            --light: #f8f9fa;
-            --dark: #2d3436;
-            --success: #00b894;
-            --warning: #fdcb6e;
-            --danger: #d63031;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background-color: #f5f6fa;
-            color: var(--dark);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        header {
-            grid-column: 1 / -1;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--secondary);
-        }
-
-        h1 {
-            color: var(--primary);
-            font-size: 2.2rem;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        /* Add more styles... */
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- Dark Mode Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
     <div class="container">
-        <header>
-            <h1><i class="fas fa-star"></i> My Ultimate Glow-Up Dashboard</h1>
-            <div class="header-widgets">
-                <div class="weather-widget" id="weather">
-                    <i class="fas fa-cloud-sun"></i>
-                    <span id="weather-temp">--°C</span>
-                    <span id="weather-desc">Loading...</span>
-                </div>
-                <div class="clock" id="clock">
-                    <i class="far fa-clock"></i>
-                    <span id="time">00:00:00</span>
-                </div>
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="search-bar">
+                <input type="text" placeholder="Search... (Cmd+K)" id="globalSearch">
             </div>
-        </header>
-
-        <!-- Left Column -->
-        <div class="left-column">
-            <!-- Calendar -->
-            <div class="card calendar-card">
-                <h2><i class="far fa-calendar-alt"></i> Calendar</h2>
-                <div class="calendar-container" id="calendar"></div>
-                <div class="calendar-actions">
-                    <button onclick="syncGoogleCalendar()">
-                        <i class="fab fa-google"></i> Sync with Google
-                    </button>
-                </div>
-            </div>
-
-            <!-- Daily Routine -->
-            <div class="card routine-card">
-                <h2><i class="fas fa-tasks"></i> Daily Routine</h2>
-                <div class="routine-list" id="routine-list">
-                    <!-- Filled by JavaScript -->
-                </div>
-                <div class="progress-container">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="routine-progress"></div>
-                    </div>
-                    <span id="progress-text">0% Complete</span>
-                </div>
-            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="#" class="active" data-section="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#" data-section="calendar"><i class="fas fa-calendar-alt"></i> Calendar</a></li>
+                <li><a href="#" data-section="routine"><i class="fas fa-tasks"></i> Routine</a></li>
+                <li><a href="#" data-section="habits"><i class="fas fa-check-circle"></i> Habits</a></li>
+                <li><a href="#" data-section="school"><i class="fas fa-graduation-cap"></i> School Hub</a></li>
+                <li><a href="#" data-section="growth"><i class="fas fa-brain"></i> Personal Growth</a></li>
+                <li><a href="#" data-section="health"><i class="fas fa-heartbeat"></i> Health & Glow-Up</a></li>
+            </ul>
         </div>
-
-        <!-- Right Column -->
-        <div class="right-column">
-            <!-- School Hub -->
-            <div class="card school-card">
-                <h2><i class="fas fa-graduation-cap"></i> School Hub</h2>
-                <div class="tabs">
-                    <button class="tab-button active" onclick="openTab('assignments')">Assignments</button>
-                    <button class="tab-button" onclick="openTab('classes')">Classes</button>
-                    <button class="tab-button" onclick="openTab('tests')">Test Prep</button>
-                </div>
-                
-                <div id="assignments" class="tab-content active">
-                    <!-- Assignment content -->
-                </div>
-                
-                <div id="classes" class="tab-content">
-                    <!-- Classes content -->
-                </div>
-                
-                <div id="tests" class="tab-content">
-                    <!-- Test prep content -->
+        
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Header with Weather/Time -->
+            <div class="header">
+                <h1 id="currentSection">Dashboard</h1>
+                <div class="header-widgets">
+                    <div class="widget" id="weatherWidget">
+                        <i class="fas fa-cloud-sun"></i>
+                        <span>Loading weather...</span>
+                    </div>
+                    <div class="widget" id="clockWidget">
+                        <i class="far fa-clock"></i>
+                        <span>--:-- --</span>
+                    </div>
                 </div>
             </div>
-
-            <!-- Health & Glow-Up -->
-            <div class="card health-card">
-                <h2><i class="fas fa-heartbeat"></i> Health & Glow-Up</h2>
-                <div class="tabs">
-                    <button class="tab-button active" onclick="openTab('fitness')">Fitness</button>
-                    <button class="tab-button" onclick="openTab('nutrition')">Nutrition</button>
-                    <button class="tab-button" onclick="openTab('skincare')">Skincare</button>
-                </div>
-                
-                <div id="fitness" class="tab-content active">
-                    <!-- Fitness content -->
-                </div>
-                
-                <div id="nutrition" class="tab-content">
-                    <!-- Nutrition content -->
-                </div>
-                
-                <div id="skincare" class="tab-content">
-                    <!-- Skincare content -->
-                </div>
+            
+            <!-- Dynamic Content Sections -->
+            <div class="content-section active" id="dashboard-section">
+                <!-- Dashboard content will be loaded here -->
             </div>
+
+            <div class="content-section" id="school-section">
+                <!-- School Hub content will be loaded here -->
+            </div>
+
+            <!-- Other sections would follow the same pattern -->
         </div>
     </div>
 
-    <script>
-        // Clock Functionality
-        function updateClock() {
-            const now = new Date();
-            const timeElement = document.getElementById('time');
-            timeElement.textContent = now.toLocaleTimeString();
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // Weather Functionality
-        async function fetchWeather() {
-            try {
-                // Note: In production, you'd need to use a weather API
-                const tempElement = document.getElementById('weather-temp');
-                const descElement = document.getElementById('weather-desc');
-                
-                // Mock data - replace with actual API call
-                tempElement.textContent = "22°C";
-                descElement.textContent = "Sunny";
-            } catch (error) {
-                console.error("Error fetching weather:", error);
-            }
-        }
-        fetchWeather();
-
-        // Google Calendar Integration
-        function syncGoogleCalendar() {
-            // This would require proper OAuth implementation
-            alert("In a full implementation, this would connect to Google Calendar API");
-        }
-
-        // Tab Functionality
-        function openTab(evt, tabName) {
-            // Hide all tab content
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Deactivate all tab buttons
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            
-            // Show current tab and activate button
-            document.getElementById(tabName).classList.add('active');
-            evt.currentTarget.classList.add('active');
-        }
-
-        // Initialize the dashboard
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load saved data
-            loadData();
-            
-            // Set up event listeners
-            setupCheckboxes();
-        });
-
-        // Add more functionality as needed...
-    </script>
+    <!-- Firebase and other libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!-- Main JavaScript -->
+    <script src="js/script.js"></script>
 </body>
 </html>
