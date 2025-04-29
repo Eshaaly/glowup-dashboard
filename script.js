@@ -155,3 +155,54 @@ if (assignments.length === 0) {
     ];
     renderAssignments();
 }
+// In script.js
+function syncGoogleCalendar() {
+    // Load the Google API client library
+    const script = document.createElement('script');
+    script.src = 'https://apis.google.com/js/api.js';
+    script.onload = () => {
+        gapi.load('client:auth2', initClient);
+    };
+    document.body.appendChild(script);
+}
+
+function initClient() {
+    gapi.client.init({
+        apiKey: 'YOUR_API_KEY',
+        clientId: 'YOUR_CLIENT_ID',
+        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
+        scope: 'https://www.googleapis.com/auth/calendar.readonly'
+    }).then(() => {
+        // Listen for sign-in state changes
+        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+        // Handle initial sign-in state
+        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+    });
+}
+
+function updateSigninStatus(isSignedIn) {
+    if (isSignedIn) {
+        // User is signed in, fetch calendar events
+        fetchEvents();
+    } else {
+        // Show sign-in button
+        showSignInButton();
+    }
+}
+
+async function fetchWeather() {
+    const apiKey = 'YOUR_API_KEY';
+    const location = 'London'; // Or get user's location
+    
+    try {
+        const response = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${apiKey}`
+        );
+        const data = await response.json();
+        
+        document.getElementById('weather-temp').textContent = `${Math.round(data.main.temp)}°C`;
+        document.getElementById('weather-desc').textContent = data.weather[0].description;
+    } catch (error) {
+        console.error("Error fetching weather:", error);
+    }
+}
