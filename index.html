@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Glow-Up Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-star"></i> My Glow-Up Dashboard</h1>
+            <div class="date-display" id="current-date"></div>
+        </header>
+
+        <div class="main-grid">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Daily Routine -->
+                <section class="card">
+                    <h2><i class="fas fa-calendar-day"></i> Daily Routine</h2>
+                    <div class="routine-container">
+                        <div class="time-block" id="morning-routine">
+                            <h3>🌅 Morning (5:20-7:20 AM)</h3>
+                            <ul class="checklist">
+                                <li><input type="checkbox" id="task1"> <label for="task1">Wake up + lemon water</label></li>
+                                <li><input type="checkbox" id="task2"> <label for="task2">Workout (Push-ups: <input type="number" min="0" max="50" class="small-input">/50)</label></li>
+                                <li><input type="checkbox" id="task3"> <label for="task3">Shower + skincare</label></li>
+                            </ul>
+                        </div>
+                        <!-- Add more time blocks... -->
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="routine-progress"></div>
+                        </div>
+                        <span id="progress-text">0% Complete</span>
+                    </div>
+                </section>
+
+                <!-- Health & Glow-Up -->
+                <section class="card">
+                    <h2><i class="fas fa-heartbeat"></i> Health & Glow-Up</h2>
+                    <div class="tabs">
+                        <button class="tab-button active" onclick="openTab(event, 'fitness-tab')">Fitness</button>
+                        <button class="tab-button" onclick="openTab(event, 'skincare-tab')">Skincare</button>
+                        <button class="tab-button" onclick="openTab(event, 'nutrition-tab')">Nutrition</button>
+                    </div>
+                    
+                    <div id="fitness-tab" class="tab-content active">
+                        <div class="fitness-tracker">
+                            <div class="fitness-metric">
+                                <h4>Push-ups</h4>
+                                <div class="counter">
+                                    <button class="counter-btn" onclick="adjustCount('pushups', -1)">-</button>
+                                    <span id="pushups-count">0</span>/50
+                                    <button class="counter-btn" onclick="adjustCount('pushups', 1)">+</button>
+                                </div>
+                            </div>
+                            <!-- Add more fitness metrics... -->
+                        </div>
+                    </div>
+                    
+                    <div id="skincare-tab" class="tab-content">
+                        <ul class="checklist">
+                            <li><input type="checkbox"> Morning skincare routine</li>
+                            <li><input type="checkbox"> Evening skincare routine</li>
+                            <li><input type="checkbox"> Weekly exfoliation</li>
+                        </ul>
+                    </div>
+                    
+                    <div id="nutrition-tab" class="tab-content">
+                        <div class="meal-tracker">
+                            <h4>Today's Meals</h4>
+                            <div class="meal-input">
+                                <input type="text" placeholder="What did you eat?" id="meal-entry">
+                                <button onclick="addMeal()">Add</button>
+                            </div>
+                            <ul id="meals-list"></ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- School Hub -->
+                <section class="card">
+                    <h2><i class="fas fa-graduation-cap"></i> School Hub</h2>
+                    <div class="tabs">
+                        <button class="tab-button active" onclick="openTab(event, 'assignments-tab')">Assignments</button>
+                        <button class="tab-button" onclick="openTab(event, 'classes-tab')">Classes</button>
+                        <button class="tab-button" onclick="openTab(event, 'tests-tab')">Test Prep</button>
+                    </div>
+                    
+                    <div id="assignments-tab" class="tab-content active">
+                        <div class="assignment-form">
+                            <input type="text" id="assignment-name" placeholder="Assignment name">
+                            <select id="assignment-class">
+                                <option value="math">IB Math</option>
+                                <option value="science">IB Science</option>
+                                <!-- Add more classes -->
+                            </select>
+                            <input type="date" id="assignment-due">
+                            <button onclick="addAssignment()">Add</button>
+                        </div>
+                        <table class="assignments-table">
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Assignment</th>
+                                    <th>Due Date</th>
+                                    <th>Priority</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="assignments-list">
+                                <!-- Dynamically populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="classes-tab" class="tab-content">
+                        <div class="class-buttons">
+                            <button onclick="openClassPage('math')">IB Math</button>
+                            <button onclick="openClassPage('science')">IB Science</button>
+                            <!-- Add more classes -->
+                        </div>
+                    </div>
+                    
+                    <div id="tests-tab" class="tab-content">
+                        <div class="test-tabs">
+                            <button class="tab-button" onclick="openTab(event, 'sat-tab')">SAT Prep</button>
+                            <button class="tab-button" onclick="openTab(event, 'act-tab')">ACT Prep</button>
+                        </div>
+                        
+                        <div id="sat-tab" class="tab-content active">
+                            <div class="study-plan">
+                                <h4>SAT Study Plan</h4>
+                                <div class="progress-tracker">
+                                    <label>Math Score Goal: 800</label>
+                                    <progress value="600" max="800"></progress>
+                                </div>
+                                <!-- Add more SAT tracking... -->
+                            </div>
+                        </div>
+                        
+                        <div id="act-tab" class="tab-content">
+                            <div class="study-plan">
+                                <h4>ACT Study Plan</h4>
+                                <!-- Add ACT content... -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Extracurriculars -->
+                <section class="card">
+                    <h2><i class="fas fa-users"></i> Extracurriculars</h2>
+                    <div class="tabs">
+                        <button class="tab-button active" onclick="openTab(event, 'clubs-tab')">Clubs</button>
+                        <button class="tab-button" onclick="openTab(event, 'volunteer-tab')">Volunteer</button>
+                        <button class="tab-button" onclick="openTab(event, 'sports-tab')">Sports</button>
+                    </div>
+                    
+                    <div id="clubs-tab" class="tab-content active">
+                        <div class="activity-form">
+                            <input type="text" id="club-name" placeholder="Club name">
+                            <input type="text" id="club-role" placeholder="Your role">
+                            <button onclick="addClub()">Add</button>
+                        </div>
+                        <ul id="clubs-list">
+                            <!-- Dynamically populated -->
+                        </ul>
+                    </div>
+                    
+                    <div id="volunteer-tab" class="tab-content">
+                        <div class="activity-form">
+                            <input type="text" id="volunteer-org" placeholder="Organization">
+                            <input type="number" id="volunteer-hours" placeholder="Hours">
+                            <button onclick="addVolunteer()">Add</button>
+                        </div>
+                        <div class="hours-tracker">
+                            <h4>Total Volunteer Hours: <span id="total-hours">0</span></h4>
+                        </div>
+                    </div>
+                    
+                    <div id="sports-tab" class="tab-content">
+                        <ul class="checklist">
+                            <li><input type="checkbox"> Tennis practice</li>
+                            <li><input type="checkbox"> Swimming practice</li>
+                            <li><input type="checkbox"> Golf practice</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
